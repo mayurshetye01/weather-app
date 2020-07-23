@@ -1,0 +1,11 @@
+server:
+  port : 9090
+
+weather-api-host: api.openweathermap.org
+weather-api-base-path: /data/2.5/find
+weather-api-key: 4dca416cbbf5767345222a59c6d9efeb
+weather-unit-key: metric
+
+admin-username: admin@admin
+admin-password: admin
+

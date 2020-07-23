@@ -1,0 +1,16 @@
+.logoutLblPos {
+  position: fixed;
+  right: 50px;
+  top: 28px;
+}
+
+table, th, td {
+  border: 0.5px solid black;
+  border-collapse: collapse;
+}
+
+input {
+  width: 145px;
+  text-align: center;
+}
+

@@ -1,0 +1,113 @@
+<label class="logoutLblPos">
+  <a routerLink="/logout" routerLinkActive="active" (click)="onLogout()" align="bottom">Logout</a>
+</label>
+<form [formGroup]="searchForm" (ngSubmit)="onSearch()">
+  <div class="form-group">
+    <input type="text" formControlName="searchCity" class="form-control" placeholder="Search by city"
+           [ngClass]="{ 'is-invalid': submitted && f.searchCity.errors }" style="width:300px;text-align: left">
+    <button type="submit">Search</button>
+  </div>
+  <div *ngIf="submitted && f.searchCity.errors" class="invalid-feedback">
+    <div *ngIf="f.searchCity.errors.required">Please enter city</div>
+  </div>
+  <br>
+  <div class="form-group">
+    <span>
+      {{errorMsg}}
+    </span>
+  </div>
+</form>
+<br>
+<div class="container">
+  <h4>Current Weather</h4>
+</div>
+<div class="container text-center">
+  <div class="row">
+    <table class="table table-striped">
+      <thead>
+      <tr *ngIf="!(currentWeatherData === undefined)">
+        <th>City</th>
+        <th>Weather description</th>
+        <th>Temperature</th>
+        <th>Min temperature</th>
+        <th>Max temperature</th>
+        <th>Sunrise</th>
+        <th>Sunset</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let currentWeather of currentWeatherData">
+        <td><label>{{currentWeather.city}}</label></td>
+        <td><label>{{currentWeather.weatherDescription}}</label></td>
+        <td><label>{{currentWeather.temp}}</label></td>
+        <td><label>{{currentWeather.minTemp}}</label></td>
+        <td><label>{{currentWeather.maxTemp}}</label></td>
+        <td><label>{{currentWeather.sunrise | date:dateFormat}}</label></td>
+        <td><label>{{currentWeather.sunset | date:dateFormat}}</label></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<br>
+<br>
+<div class="container">
+  <h4>Search History</h4>
+</div>
+<div class="container text-center">
+  <div class="row">
+    <table class="table table-striped">
+      <thead>
+      <tr *ngIf="!(userSearchHistory === undefined) && userSearchHistory.length !== 0">
+        <th>City</th>
+        <th>Weather description</th>
+        <th>Temperature</th>
+        <th>Min temperature</th>
+        <th>Max temperature</th>
+        <th>Sunrise</th>
+        <th>Sunset</th>
+        <button class="btn btn-success" (click)="bulkDelete()" style="width:110px"> Bulk delete</button>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let entry of userSearchHistory; index as i">
+        <td>
+          <label>{{entry.city}}</label>
+        </td>
+        <td>
+          <input *ngIf="isEditable(i)" [(ngModel)]="entry.weatherDescription">
+          <label *ngIf="!isEditable(i)" (click)="onRowClick(i)">{{entry.weatherDescription}}</label>
+        </td>
+        <td>
+          <input type="number" *ngIf="isEditable(i)" [(ngModel)]="entry.temp">
+          <label *ngIf="!isEditable(i)" (click)="onRowClick(i)">{{entry.temp}}</label>
+        </td>
+        <td>
+          <input type="number" *ngIf="isEditable(i)" [(ngModel)]="entry.minTemp">
+          <label *ngIf="!isEditable(i)" (click)="onRowClick(i)">{{entry.minTemp}}</label>
+        </td>
+        <td>
+          <input type="number" *ngIf="isEditable(i)" [(ngModel)]="entry.maxTemp">
+          <label *ngIf="!isEditable(i)" (click)="onRowClick(i)">{{entry.maxTemp}}</label>
+        </td>
+        <td>
+          <input *ngIf="isEditable(i)" [(ngModel)]="entry.sunrise">
+          <label *ngIf="!isEditable(i)" (click)="onRowClick(i)">{{entry.sunrise | date:dateFormat}}</label>
+        </td>
+        <td>
+          <input *ngIf="isEditable(i)" [(ngModel)]="entry.sunset">
+          <label *ngIf="!isEditable(i)" (click)="onRowClick(i)">{{entry.sunset | date:dateFormat}}</label>
+        </td>
+        <td>
+          <button class="btn btn-success" (click)="delete(entry.city)"> Delete</button>
+          <button class="btn btn-success" (click)="update(entry)"> Update</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <br>
+    <div *ngFor="let msg of updateErrMsgs">
+      <span>{{msg}}</span>
+    </div>
+  </div>
+</div>
